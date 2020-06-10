@@ -1,0 +1,34 @@
+import random
+
+X = [(0,1),(0,3),(2,0),(2,5),(4,2),(4,6),(4,7)]
+
+def hub_spoke(X):
+    hub, spoke = [], []
+    for i in range(len(X)):
+        if X[i][0] not in hub:
+            hub.append(X[i][0])
+        if X[i][1] not in spoke:
+            spoke.append(X[i][1])
+    for a in spoke:
+        if a in hub:
+            spoke.remove(a)
+    return(hub,spoke)
+
+def swap_on_the_spoke(X):
+    neighbours = []
+    hub, spoke = hub_spoke(X)
+    for i in range(len(spoke)):
+        for j in range(i+1,len(spoke)):
+            new_neighbour = X.copy()
+            for x in X:
+                if x[1] == i:
+                    swap1 = x
+                    new_neighbour.remove(x)
+                if x[1] == j:
+                    swap2 = x
+                    new_neighbour.remove(x)
+            new_neighbour.append((swap1[0],swap2[1]))
+            new_neighbour.append((swap2[0],swap1[1]))
+            #new_neighbour.sort()
+            neighbours.append(new_neighbour)
+    return neighbours
